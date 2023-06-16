@@ -16,10 +16,14 @@ print('Total repositories: ', repos_dict['total_count'])
 # Анализ информации о репозиториях
 repos_dicts = repos_dict['items']
 print('Repositories returned: ', len(repos_dicts))
-names, stars = [], []
+names, plot_dicts = [], []
 for repos_dict in repos_dicts:
     names.append(repos_dict['name'])
-    stars.append(repos_dict['stargazers_count'])
+    plot_dict = {
+        'value': repos_dict['stargazers_count'],
+        'label': repos_dict['description'],
+    }
+    plot_dicts.append(plot_dict)
 
 # Анализ первого репозитория
 # repos_dict = repos_dicts[1]
@@ -30,7 +34,7 @@ for repos_dict in repos_dicts:
 # print(repos_dict.keys())
 
 # Построенеи визуализации
-repo_style = LS('#552299', base_style=LCS)
+repo_style = LS('#441166', base_style=LCS)
 repos_config = pygal.Config()
 repos_config.x_label_rotation = 45
 repos_config.show_legend = False
@@ -41,11 +45,11 @@ repos_config.truncate_label = 15
 repos_config.show_y_guides = False
 repos_config.width = 1000
 tops = pygal.Bar(repos_config, style=repo_style)
-tops.title = ('Самые оцененные репозитории на GitHub')
+tops.title = ('Python Projects')
 tops.x_labels = names
 
-tops.add('', stars)
-tops.render_to_file('python_repos_2.svg')
+tops.add('', plot_dicts)
+tops.render_to_file('python_repos_4.svg')
 
 # Прочитаем значения некоторых ключей
 for repos_dict in repos_dicts:
