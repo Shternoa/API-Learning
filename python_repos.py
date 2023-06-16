@@ -1,4 +1,6 @@
+import pygal
 import requests
+from pygal.style import LightColorizedStyle as LCS, LightenStyle as LS
 
 # Создание вызова и сохранения ответа API
 
@@ -14,6 +16,10 @@ print('Total repositories: ', repos_dict['total_count'])
 # Анализ информации о репозиториях
 repos_dicts = repos_dict['items']
 print('Repositories returned: ', len(repos_dicts))
+names, stars = [], []
+for repos_dict in repos_dicts:
+    names.append(repos_dict['name'])
+    stars.append(repos_dict['stargazers_count'])
 
 # Анализ первого репозитория
 # repos_dict = repos_dicts[1]
@@ -22,6 +28,24 @@ print('Repositories returned: ', len(repos_dicts))
 #     print(key)
 # # Обработка результатов
 # print(repos_dict.keys())
+
+# Построенеи визуализации
+repo_style = LS('#552299', base_style=LCS)
+repos_config = pygal.Config()
+repos_config.x_label_rotation = 45
+repos_config.show_legend = False
+repos_config.title_font_size = 24
+repos_config.label_font_size = 14
+repos_config.major_label_font_size = 18
+repos_config.truncate_label = 15
+repos_config.show_y_guides = False
+repos_config.width = 1000
+tops = pygal.Bar(repos_config, style=repo_style)
+tops.title = ('Самые оцененные репозитории на GitHub')
+tops.x_labels = names
+
+tops.add('', stars)
+tops.render_to_file('python_repos_2.svg')
 
 # Прочитаем значения некоторых ключей
 for repos_dict in repos_dicts:
