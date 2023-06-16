@@ -22,6 +22,7 @@ for repos_dict in repos_dicts:
     plot_dict = {
         'value': repos_dict['stargazers_count'],
         'label': repos_dict['description'],
+        'xlink': repos_dict['html_url'],
     }
     plot_dicts.append(plot_dict)
 
@@ -49,7 +50,7 @@ tops.title = ('Python Projects')
 tops.x_labels = names
 
 tops.add('', plot_dicts)
-tops.render_to_file('python_repos_4.svg')
+tops.render_to_file('python_repos_4_5.svg')
 
 # Прочитаем значения некоторых ключей
 for repos_dict in repos_dicts:
